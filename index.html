@@ -18,7 +18,6 @@
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             color: #f1f5f9;
             overflow: hidden;
-            touch-action: pan-y;
             height: 100vh;
             width: 100vw;
         }
@@ -27,7 +26,7 @@
             font-family: 'Noto Naskh Arabic', serif;
         }
 
-        /* Container utama untuk swipe */
+        /* Container utama */
         .app-container {
             display: flex;
             width: 400%; /* 4 halaman */
@@ -101,16 +100,6 @@
             background: linear-gradient(135deg, rgba(251, 191, 36, 0.3) 0%, rgba(245, 158, 11, 0.3) 100%);
             border: 2px solid #fbbf24;
             box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
-        }
-
-        /* Swipe hint animation */
-        @keyframes swipeHint {
-            0%, 100% { transform: translateX(0); opacity: 0.5; }
-            50% { transform: translateX(10px); opacity: 1; }
-        }
-
-        .swipe-hint {
-            animation: swipeHint 2s infinite;
         }
 
         /* Progress ring */
@@ -280,14 +269,6 @@
                     <div id="next-prayer-list" class="space-y-2">
                         <!-- Dynamic content -->
                     </div>
-                </div>
-
-                <!-- Swipe Hint -->
-                <div class="flex items-center justify-center gap-2 mt-6 text-gray-500 text-xs swipe-hint">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                    <span>Geser untuk jadwal lengkap</span>
                 </div>
             </div>
         </div>
@@ -500,7 +481,7 @@
                 <svg class="w-6 h-6 text-gray-400 group-[.active]:text-yellow-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                 </svg>
-                <span class="text-[10px] text-gray-400 group-[.active]:text-yellow-400">Doa</span>
+                <span class="text-[10px] text-gray-gray-400 group-[.active]:text-yellow-400">Doa</span>
             </button>
             
             <button onclick="goToPage(3)" class="nav-item flex flex-col items-center gap-1 group" data-page="3">
@@ -555,9 +536,6 @@
 
         // State
         let currentPage = 0;
-        let startX = 0;
-        let currentX = 0;
-        let isDragging = false;
 
         // Elements
         const container = document.getElementById('appContainer');
@@ -572,14 +550,7 @@
             return `${hours12}:${String(minutes).padStart(2, '0')} ${period}`;
         }
 
-        // Helper: Convert 24h to 12h format without AM/PM (for display)
-        function to12HourSimple(time24) {
-            const [hours, minutes] = time24.split(':').map(Number);
-            const hours12 = hours % 12 || 12;
-            return `${hours12}:${String(minutes).padStart(2, '0')}`;
-        }
-
-        // Navigation
+        // Navigation - HANYA MENGGUNAKAN TOMBOL
         function goToPage(page) {
             currentPage = Math.max(0, Math.min(3, page));
             container.style.transform = `translateX(-${currentPage * 25}%)`;
@@ -607,86 +578,6 @@
                 }
             });
         }
-
-        // Touch events for swipe
-        container.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].clientX;
-            isDragging = true;
-            container.style.transition = 'none';
-        }, { passive: true });
-
-        container.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            currentX = e.touches[0].clientX;
-            const diff = currentX - startX;
-            const offset = -currentPage * 25 + (diff / window.innerWidth) * 25;
-            container.style.transform = `translateX(${offset}%)`;
-        }, { passive: true });
-
-        container.addEventListener('touchend', (e) => {
-            if (!isDragging) return;
-            isDragging = false;
-            container.style.transition = 'transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)';
-            
-            const diff = currentX - startX;
-            const threshold = window.innerWidth * 0.2;
-            
-            if (Math.abs(diff) > threshold) {
-                if (diff > 0 && currentPage > 0) {
-                    goToPage(currentPage - 1);
-                } else if (diff < 0 && currentPage < 3) {
-                    goToPage(currentPage + 1);
-                } else {
-                    goToPage(currentPage);
-                }
-            } else {
-                goToPage(currentPage);
-            }
-        });
-
-        // Mouse events for desktop testing
-        container.addEventListener('mousedown', (e) => {
-            startX = e.clientX;
-            isDragging = true;
-            container.style.transition = 'none';
-        });
-
-        container.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            currentX = e.clientX;
-            const diff = currentX - startX;
-            const offset = -currentPage * 25 + (diff / window.innerWidth) * 25;
-            container.style.transform = `translateX(${offset}%)`;
-        });
-
-        container.addEventListener('mouseup', (e) => {
-            if (!isDragging) return;
-            isDragging = false;
-            container.style.transition = 'transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)';
-            
-            const diff = currentX - startX;
-            const threshold = window.innerWidth * 0.2;
-            
-            if (Math.abs(diff) > threshold) {
-                if (diff > 0 && currentPage > 0) {
-                    goToPage(currentPage - 1);
-                } else if (diff < 0 && currentPage < 3) {
-                    goToPage(currentPage + 1);
-                } else {
-                    goToPage(currentPage);
-                }
-            } else {
-                goToPage(currentPage);
-            }
-        });
-
-        container.addEventListener('mouseleave', () => {
-            if (isDragging) {
-                isDragging = false;
-                container.style.transition = 'transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)';
-                goToPage(currentPage);
-            }
-        });
 
         // Time functions
         function timeToMinutes(time) {
@@ -833,13 +724,6 @@
             updateClock();
             updateHome();
         }, 1000);
-
-        // Prevent default touchmove for better swipe
-        document.addEventListener('touchmove', (e) => {
-            if (Math.abs(e.touches[0].clientX - startX) > Math.abs(e.touches[0].clientY - (e.touches[0].clientY))) {
-                e.preventDefault();
-            }
-        }, { passive: false });
     </script>
 </body>
 </html>
