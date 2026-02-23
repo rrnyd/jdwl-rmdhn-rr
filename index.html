@@ -626,11 +626,18 @@
             
             list.innerHTML = scheduleData.map(item => {
                 const isToday = item.date === todayStr;
+                // Extract day name and date parts
+                const dayName = item.fullDate.split(',')[0];
+                const dateParts = item.date.split(' ');
+                const dayNum = dateParts[0];
+                const monthName = dateParts[1];
+                
                 return `
                     <div class="schedule-row ${isToday ? 'schedule-today' : ''}">
                         <div>
-                            <p class="text-xs font-medium ${isToday ? 'text-yellow-400' : 'text-white'}">${item.date}</p>
-                            <p class="text-[10px] text-gray-500">${item.fullDate.split(',')[0]}</p>
+                            <p class="text-xs font-medium ${isToday ? 'text-yellow-400' : 'text-white'}">
+                                ${dayName}, ${dayNum} ${monthName}
+                            </p>
                         </div>
                         <p class="text-xs text-blue-400 time-font">${to12Hour(item.imsak)}</p>
                         <p class="text-xs text-orange-400 font-semibold time-font">${to12Hour(item.maghrib)}</p>
