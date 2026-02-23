@@ -130,8 +130,29 @@
             }
         }
 
-        /* List item - lebih rapat */
-        .schedule-item {
+        /* Schedule table - struktur grid yang konsisten */
+        .schedule-table {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .schedule-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background: rgba(30, 41, 59, 0.5);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 10px;
+            font-weight: 600;
+            color: #fbbf24;
+        }
+
+        .schedule-header span {
+            text-align: center;
+        }
+
+        .schedule-row {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
             gap: 0.5rem;
@@ -140,8 +161,17 @@
             align-items: center;
         }
 
-        .schedule-item:last-child {
+        .schedule-row:last-child {
             border-bottom: none;
+        }
+
+        .schedule-row > div,
+        .schedule-row > p {
+            text-align: center;
+        }
+
+        .schedule-row > div:first-child {
+            text-align: left;
         }
 
         .schedule-today {
@@ -149,7 +179,7 @@
             border-left: 3px solid #fbbf24;
         }
 
-        /* Bottom nav - PADDING DIKURANGI */
+        /* Bottom nav - PADDING Y DIKURANGI */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -273,7 +303,7 @@
             </div>
         </div>
 
-        <!-- PAGE 2: FULL SCHEDULE - SEARCH BOX DIHILANGKAN -->
+        <!-- PAGE 2: FULL SCHEDULE - STRUKTUR TABLE DIPERBAIKI -->
         <div class="page" id="page-1">
             <div class="content-spacing">
                 <!-- Header tanpa search box -->
@@ -282,15 +312,19 @@
                 </div>
 
                 <div class="glass rounded-xl overflow-hidden mt-1">
-                    <!-- Header kolom dengan text-center untuk rata tengah -->
-                    <div class="bg-slate-800/50 p-2 text-[10px] font-semibold text-yellow-400 grid grid-cols-4 gap-2 items-center">
-                        <span class="text-center">Tanggal</span>
-                        <span class="text-center">Imsak</span>
-                        <span class="text-center text-orange-400">Buka</span>
-                        <span class="text-center">Isya</span>
-                    </div>
-                    <div id="schedule-list" class="divide-y divide-slate-700/50">
-                        <!-- Dynamic content -->
+                    <!-- Table dengan struktur konsisten -->
+                    <div class="schedule-table">
+                        <!-- Header -->
+                        <div class="schedule-header">
+                            <span>Tanggal</span>
+                            <span>Imsak</span>
+                            <span class="text-orange-400">Buka</span>
+                            <span>Isya</span>
+                        </div>
+                        <!-- Body -->
+                        <div id="schedule-list">
+                            <!-- Dynamic content -->
+                        </div>
                     </div>
                 </div>
 
@@ -476,7 +510,7 @@
                 <svg class="w-5 h-5 text-gray-400 group-[.active]:text-yellow-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                 </svg>
-                <span class="text-[10px] text-gray-gray-400 group-[.active]:text-yellow-400">Doa</span>
+                <span class="text-[10px] text-gray-400 group-[.active]:text-yellow-400">Doa</span>
             </button>
             
             <button onclick="goToPage(3)" class="nav-item flex flex-col items-center gap-1 group" data-page="3">
@@ -584,7 +618,7 @@
             return new Date(2026, 1, 22); // Feb 22, 2026 for demo
         }
 
-        // Render schedule list
+        // Render schedule list - DIPERBAIKI STRUKTURNYA
         function renderSchedule() {
             const list = document.getElementById('schedule-list');
             const today = getToday();
@@ -593,14 +627,14 @@
             list.innerHTML = scheduleData.map(item => {
                 const isToday = item.date === todayStr;
                 return `
-                    <div class="schedule-item ${isToday ? 'schedule-today' : ''}">
-                        <div class="text-center">
+                    <div class="schedule-row ${isToday ? 'schedule-today' : ''}">
+                        <div>
                             <p class="text-xs font-medium ${isToday ? 'text-yellow-400' : 'text-white'}">${item.date}</p>
                             <p class="text-[10px] text-gray-500">${item.fullDate.split(',')[0]}</p>
                         </div>
-                        <p class="text-center text-xs text-blue-400 time-font">${to12Hour(item.imsak)}</p>
-                        <p class="text-center text-xs text-orange-400 font-semibold time-font">${to12Hour(item.maghrib)}</p>
-                        <p class="text-center text-xs text-gray-400 time-font">${to12Hour(item.isya)}</p>
+                        <p class="text-xs text-blue-400 time-font">${to12Hour(item.imsak)}</p>
+                        <p class="text-xs text-orange-400 font-semibold time-font">${to12Hour(item.maghrib)}</p>
+                        <p class="text-xs text-gray-400 time-font">${to12Hour(item.isya)}</p>
                     </div>
                 `;
             }).join('');
