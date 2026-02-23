@@ -130,10 +130,10 @@
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
             gap: 0.25rem;
-            padding: 0.2rem 0.5rem; /* dikurangi dari 0.25rem */
+            padding: 0.15rem 0.5rem;
             background: rgba(30, 41, 59, 0.5);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 9px;
+            font-size: 10px; /* Dinaikkan dari 9px */
             font-weight: 600;
             color: #fbbf24;
         }
@@ -142,15 +142,15 @@
             text-align: center;
         }
 
-        /* PERUBAHAN: Baris lebih rapat lagi */
+        /* PERUBAHAN: Baris lebih rapat tapi font lebih besar */
         .schedule-row {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
             gap: 0.25rem;
-            padding: 0.08rem 0.5rem; /* dikurangi dari 0.15rem */
+            padding: 0.05rem 0.5rem; /* Sangat rapat */
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             align-items: center;
-            min-height: 18px; /* dikurangi dari 24px */
+            min-height: 16px; /* Lebih pendek */
         }
 
         .schedule-row:last-child {
@@ -317,22 +317,19 @@
             </div>
         </div>
 
-        <!-- PAGE 3: DOA & TIPS - Font diperbesar sedikit tapi tidak menyentuh navbar -->
+        <!-- PAGE 3: DOA & TIPS -->
         <div class="page" id="page-2">
             <div class="content-spacing">
                 <h2 class="text-base font-bold text-white mb-3 pt-1">Doa & Panduan</h2>
                 
-                <!-- Padding dan font sedikit lebih besar -->
                 <div class="prayer-card p-4 rounded-xl mb-3">
                     <div class="flex items-center gap-2 mb-3">
                         <span class="text-lg">🤲</span>
                         <h3 class="font-bold text-yellow-400 text-sm">Doa Buka Puasa</h3>
                     </div>
-                    <!-- Font Arab sedikit lebih besar -->
                     <p class="arabic text-base text-white text-right leading-relaxed mb-3">
                         اللَّهُمَّ لَكَ صُمْتُ وَبِكَ آمَنْتُ وَعَلَى رِزْقِكَ أَفْطَرْتُ
                     </p>
-                    <!-- Font latin sedikit lebih besar -->
                     <p class="text-xs text-gray-300 italic mb-2">
                         "Allahumma laka shumtu wa bika aamantu wa 'ala rizqika aftartu"
                     </p>
@@ -351,7 +348,6 @@
                     </p>
                 </div>
 
-                <!-- Space-y dan padding sedikit lebih besar -->
                 <div class="space-y-3">
                     <h3 class="font-bold text-white text-xs uppercase tracking-wider">Tips Puasa</h3>
                     
@@ -384,20 +380,17 @@
             </div>
         </div>
 
-        <!-- PAGE 4: MENU - Jarak antar menu ditambah sedikit tapi tidak menyentuh navbar -->
+        <!-- PAGE 4: MENU -->
         <div class="page" id="page-3">
             <div class="content-spacing">
                 <h2 class="text-base font-bold text-white mb-3 pt-1">Menu Buka Puasa</h2>
                 
-                <!-- Space-y ditambah dari 2 ke 3 -->
                 <div class="space-y-3">
-                    <!-- Padding ditambah sedikit -->
                     <div class="glass p-4 rounded-xl">
                         <div class="flex items-center gap-2 mb-3">
                             <span class="text-lg">🍹</span>
                             <h3 class="font-bold text-yellow-400 text-xs">Pembuka</h3>
                         </div>
-                        <!-- Space-y ditambah -->
                         <div class="space-y-2">
                             <div class="flex justify-between items-center p-1.5 bg-slate-800/30 rounded">
                                 <span class="text-xs text-white">Kurma</span>
@@ -608,16 +601,17 @@
                 const dayNum = dateParts[0];
                 const monthName = dateParts[1];
                 
+                // PERUBAHAN: Font lebih besar (10px) tapi baris tetap rapat
                 return `
                     <div class="schedule-row ${isToday ? 'schedule-today' : ''}">
                         <div>
-                            <p class="text-[9px] font-medium ${isToday ? 'text-yellow-400' : 'text-white'} leading-tight">
+                            <p class="text-[10px] font-medium ${isToday ? 'text-yellow-400' : 'text-white'} leading-tight">
                                 ${dayName}, ${dayNum} ${monthName}
                             </p>
                         </div>
-                        <p class="text-[9px] text-blue-400 time-font">${to12Hour(item.imsak)}</p>
-                        <p class="text-[9px] text-orange-400 font-semibold time-font">${to12Hour(item.maghrib)}</p>
-                        <p class="text-[9px] text-gray-400 time-font">${to12Hour(item.isya)}</p>
+                        <p class="text-[10px] text-blue-400 time-font">${to12Hour(item.imsak)}</p>
+                        <p class="text-[10px] text-orange-400 font-semibold time-font">${to12Hour(item.maghrib)}</p>
+                        <p class="text-[10px] text-gray-400 time-font">${to12Hour(item.isya)}</p>
                     </div>
                 `;
             }).join('');
