@@ -70,7 +70,6 @@
             font-feature-settings: "tnum";
         }
 
-        /* Indikator halaman DIPERKECIL DAN DITURUNKAN LEBIH BAWAH */
         .nav-dot {
             width: 4px;
             height: 4px;
@@ -121,7 +120,6 @@
             }
         }
 
-        /* Schedule table - BARIS LEBIH RAPAT */
         .schedule-table {
             display: flex;
             flex-direction: column;
@@ -170,7 +168,6 @@
             border-left: 2px solid #fbbf24;
         }
 
-        /* Bottom nav - TINGGI DIKURANGI */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -179,7 +176,6 @@
             z-index: 50;
         }
 
-        /* Content spacing - dikurangi karena navbar lebih pendek */
         .content-spacing {
             padding-bottom: 70px;
         }
@@ -285,7 +281,7 @@
             </div>
         </div>
 
-        <!-- PAGE 2: FULL SCHEDULE - BARIS LEBIH RAPAT -->
+        <!-- PAGE 2: FULL SCHEDULE -->
         <div class="page" id="page-1">
             <div class="content-spacing">
                 <div class="sticky top-0 z-10 bg-slate-900/90 backdrop-blur-md pb-1 pt-0.5">
@@ -309,7 +305,7 @@
             </div>
         </div>
 
-        <!-- PAGE 3: DOA & TIPS - PARAGRAF TIPS LEBIH RAPAT -->
+        <!-- PAGE 3: DOA & TIPS -->
         <div class="page" id="page-2">
             <div class="content-spacing">
                 <h2 class="text-sm font-bold text-white mb-2 pt-0.5">Doa & Panduan</h2>
@@ -372,7 +368,7 @@
             </div>
         </div>
 
-        <!-- PAGE 4: MENU - BARIS LEBIH RAPAT -->
+        <!-- PAGE 4: MENU -->
         <div class="page" id="page-3">
             <div class="content-spacing">
                 <h2 class="text-sm font-bold text-white mb-2 pt-0.5">Menu Buka Puasa</h2>
@@ -459,7 +455,6 @@
         </div>
     </div>
 
-    <!-- Bottom Navigation - LEBIH RENDAH DAN PADDING DIKURANGI -->
     <nav class="bottom-nav glass-strong px-6 pt-2 pb-5">
         <div class="flex justify-around items-center max-w-md mx-auto">
             <button onclick="goToPage(0)" class="nav-item flex flex-col items-center gap-0.5 group" data-page="0">
@@ -491,7 +486,6 @@
             </button>
         </div>
         
-        <!-- Page Indicators - DIPERKECIL DAN DITURUNKAN LEBIH BAWAH -->
         <div class="flex justify-center gap-1.5 mt-3">
             <div class="nav-dot active" data-index="0"></div>
             <div class="nav-dot" data-index="1"></div>
@@ -507,7 +501,7 @@
             { date: "3 Feb", fullDate: "Selasa, 03 Februari 2026", imsak: "05:03", subuh: "05:13", dzuhur: "12:38", ashar: "15:59", maghrib: "18:41", isya: "19:52" },
             { date: "4 Feb", fullDate: "Rabu, 04 Februari 2026", imsak: "05:04", subuh: "05:14", dzuhur: "12:38", ashar: "15:59", maghrib: "18:41", isya: "19:52" },
             { date: "5 Feb", fullDate: "Kamis, 05 Februari 2026", imsak: "05:04", subuh: "05:14", dzuhur: "12:38", ashar: "15:59", maghrib: "18:41", isya: "19:52" },
-            { date: "6 Feb", fullDate: "Jumat, 06 Februari 2026", imsak: "05:04", subuh: "05:14", dzuhur: "12:38", ashar: "15:58", maghrib: "18:41", isya: "19:52" },
+            { date: "6 Feb", fullDate: "Jumat, 06 Februari 2026", imsak: "05:05", subuh: "05:15", dzuhur: "12:38", ashar: "15:58", maghrib: "18:41", isya: "19:52" },
             { date: "7 Feb", fullDate: "Sabtu, 07 Februari 2026", imsak: "05:04", subuh: "05:14", dzuhur: "12:38", ashar: "15:58", maghrib: "18:41", isya: "19:52" },
             { date: "8 Feb", fullDate: "Minggu, 08 Februari 2026", imsak: "05:04", subuh: "05:14", dzuhur: "12:38", ashar: "15:58", maghrib: "18:41", isya: "19:52" },
             { date: "9 Feb", fullDate: "Senin, 09 Februari 2026", imsak: "05:05", subuh: "05:15", dzuhur: "12:38", ashar: "15:58", maghrib: "18:41", isya: "19:52" },
@@ -620,32 +614,39 @@
 
             const now = new Date();
             const currentMin = now.getHours() * 60 + now.getMinutes();
+            const currentSec = now.getSeconds();
             const imsakMin = timeToMinutes(todayData.imsak);
             const maghribMin = timeToMinutes(todayData.maghrib);
             const isyaMin = timeToMinutes(todayData.isya);
 
-            let status, label, target, progress;
+            let status, label, targetMin, progress;
+            let showCountdown = true;
 
             if (currentMin < imsakMin) {
+                // Sebelum imsak - hitung mundur ke imsak
                 status = 'Sahur';
                 label = 'Menuju imsak';
-                target = imsakMin;
+                targetMin = imsakMin;
                 progress = 0;
             } else if (currentMin < maghribMin) {
+                // Sedang puasa - hitung mundur ke maghrib
                 status = 'Berpuasa';
                 label = 'Menuju buka';
-                target = maghribMin;
+                targetMin = maghribMin;
                 progress = ((currentMin - imsakMin) / (maghribMin - imsakMin)) * 100;
             } else if (currentMin < isyaMin) {
+                // Sudah buka - hitung mundur ke isya
                 status = 'Buka Puasa';
                 label = 'Menuju isya';
-                target = isyaMin;
+                targetMin = isyaMin;
                 progress = 100;
             } else {
+                // Sudah isya - selesai
                 status = 'Istirahat';
                 label = 'Selesai';
-                target = isyaMin;
+                targetMin = isyaMin;
                 progress = 100;
+                showCountdown = false;
             }
 
             document.getElementById('home-status').textContent = status;
@@ -658,12 +659,24 @@
             circle.style.strokeDashoffset = offset;
             document.getElementById('progress-text').textContent = Math.round(progress) + '%';
 
-            const diff = target - currentMin;
-            const h = Math.floor(diff / 60);
-            const m = diff % 60;
-            const s = 59 - now.getSeconds();
-            document.getElementById('home-countdown').textContent = 
-                `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+            // Hitung mundur dengan detik yang akurat
+            if (showCountdown) {
+                const nowTotalSec = currentMin * 60 + currentSec;
+                const targetTotalSec = targetMin * 60;
+                let diffSec = targetTotalSec - nowTotalSec;
+                
+                // Pastikan tidak negatif
+                if (diffSec < 0) diffSec = 0;
+                
+                const h = Math.floor(diffSec / 3600);
+                const m = Math.floor((diffSec % 3600) / 60);
+                const s = diffSec % 60;
+                
+                document.getElementById('home-countdown').textContent = 
+                    `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+            } else {
+                document.getElementById('home-countdown').textContent = '00:00:00';
+            }
 
             const prayers = [
                 { name: 'Dzuhur', time: todayData.dzuhur, done: currentMin > timeToMinutes(todayData.dzuhur) },
@@ -674,7 +687,7 @@
 
             document.getElementById('next-prayer-list').innerHTML = prayers.map(p => `
                 <div class="flex justify-between items-center p-1 rounded-lg ${p.name === 'Maghrib' ? 'bg-orange-500/20 border border-orange-500/30' : 'bg-slate-800/30'}">
-                    <span class="text-[11px] ${p.name === 'Maghrib' ? 'text-orange-400 font-semibold' : 'text-white'}">${p.name}</span>
+                    <span class="text-[11px] ${p.name === 'Maghrib' ? 'text-orange-400 font-semibold' : 'text-white'}">${p.name === 'Maghrib' ? 'text-orange-400 font-semibold' : 'text-white'}">${p.name}</span>
                     <span class="text-[11px] time-font ${p.name === 'Maghrib' ? 'text-orange-400' : 'text-gray-400'}">${to12Hour(p.time)}</span>
                 </div>
             `).join('');
