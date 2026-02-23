@@ -125,12 +125,12 @@
             flex-direction: column;
         }
 
-        /* PERUBAHAN: Lebih rapat untuk muat satu halaman */
+        /* PERUBAHAN: Header lebih rapat */
         .schedule-header {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
             gap: 0.25rem;
-            padding: 0.25rem 0.5rem;
+            padding: 0.2rem 0.5rem; /* dikurangi dari 0.25rem */
             background: rgba(30, 41, 59, 0.5);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 9px;
@@ -142,15 +142,15 @@
             text-align: center;
         }
 
-        /* PERUBAHAN: Baris lebih rapat lagi - padding dikurangi */
+        /* PERUBAHAN: Baris lebih rapat lagi */
         .schedule-row {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
             gap: 0.25rem;
-            padding: 0.15rem 0.5rem; /* Dikurangi dari 0.25rem */
+            padding: 0.08rem 0.5rem; /* dikurangi dari 0.15rem */
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             align-items: center;
-            min-height: 24px; /* Dikurangi dari 28px */
+            min-height: 18px; /* dikurangi dari 24px */
         }
 
         .schedule-row:last-child {
@@ -285,7 +285,6 @@
                     </div>
                 </div>
 
-                <!-- PERUBAHAN: Hanya 1 event dengan font lebih besar -->
                 <div class="glass p-4 rounded-xl">
                     <p class="text-xs text-gray-400 uppercase tracking-wider mb-2">Jadwal Selanjutnya</p>
                     <div id="next-prayer-list" class="space-y-2">
@@ -318,62 +317,65 @@
             </div>
         </div>
 
-        <!-- PAGE 3: DOA & TIPS -->
+        <!-- PAGE 3: DOA & TIPS - Font diperbesar sedikit tapi tidak menyentuh navbar -->
         <div class="page" id="page-2">
             <div class="content-spacing">
                 <h2 class="text-base font-bold text-white mb-3 pt-1">Doa & Panduan</h2>
                 
-                <!-- PERUBAHAN: Font lebih kecil agar muat satu halaman -->
-                <div class="prayer-card p-3 rounded-xl mb-2"> <!-- padding dikurangi dari p-4 ke p-3 -->
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="text-lg">🤲</span> <!-- ukuran dikurangi dari text-xl -->
-                        <h3 class="font-bold text-yellow-400 text-xs">Doa Buka Puasa</h3> <!-- text-sm jadi text-xs -->
+                <!-- Padding dan font sedikit lebih besar -->
+                <div class="prayer-card p-4 rounded-xl mb-3">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-lg">🤲</span>
+                        <h3 class="font-bold text-yellow-400 text-sm">Doa Buka Puasa</h3>
                     </div>
-                    <p class="arabic text-base text-white text-right leading-relaxed mb-2"> <!-- text-lg jadi text-base -->
+                    <!-- Font Arab sedikit lebih besar -->
+                    <p class="arabic text-base text-white text-right leading-relaxed mb-3">
                         اللَّهُمَّ لَكَ صُمْتُ وَبِكَ آمَنْتُ وَعَلَى رِزْقِكَ أَفْطَرْتُ
                     </p>
-                    <p class="text-[10px] text-gray-300 italic mb-1"> <!-- text-xs jadi text-[10px] -->
+                    <!-- Font latin sedikit lebih besar -->
+                    <p class="text-xs text-gray-300 italic mb-2">
                         "Allahumma laka shumtu wa bika aamantu wa 'ala rizqika aftartu"
                     </p>
-                    <p class="text-[10px] text-gray-400 leading-snug"> <!-- text-xs jadi text-[10px] -->
+                    <p class="text-xs text-gray-400 leading-relaxed">
                         "Ya Allah, kepada-Mu aku berpuasa dan kepada-Mu aku beriman dan dengan rezeki-Mu aku berbuka."
                     </p>
                 </div>
 
-                <div class="glass p-3 rounded-xl mb-2"> <!-- padding dikurangi -->
-                    <p class="text-[10px] text-gray-300 mb-2">Dilanjutkan dengan:</p> <!-- text-xs jadi text-[10px] -->
-                    <p class="arabic text-sm text-white text-right mb-2"> <!-- text-base jadi text-sm -->
+                <div class="glass p-4 rounded-xl mb-3">
+                    <p class="text-xs text-gray-300 mb-3">Dilanjutkan dengan:</p>
+                    <p class="arabic text-sm text-white text-right mb-3">
                         ذَهَبَ الظَّمَأُ وَابْتَلَّتِ الْعُرُوقُ وَثَبَتَ الأَجْرُ إِنْ شَاءَ اللَّهُ
                     </p>
-                    <p class="text-[10px] text-gray-400 leading-snug"> <!-- text-xs jadi text-[10px] -->
+                    <p class="text-xs text-gray-400 leading-relaxed">
                         "Telah hilang dahaga, urat-urat telah basah, dan telah ditetapkan pahala, insya Allah."
                     </p>
                 </div>
 
-                <div class="space-y-2">
+                <!-- Space-y dan padding sedikit lebih besar -->
+                <div class="space-y-3">
                     <h3 class="font-bold text-white text-xs uppercase tracking-wider">Tips Puasa</h3>
                     
-                    <div class="glass p-2 rounded-lg flex gap-2 items-start"> <!-- p-3 jadi p-2, gap-3 jadi gap-2 -->
-                        <span class="text-base">💧</span> <!-- text-lg jadi text-base -->
+                    <div class="glass p-3 rounded-lg flex gap-3 items-start">
+                        <span class="text-base">💧</span>
                         <div>
-                            <h4 class="font-semibold text-white text-[10px]">Minum yang Cukup</h4> <!-- text-xs jadi text-[10px] -->
-                            <p class="text-[10px] text-gray-400 leading-snug">Minum 8 gelas air antara iftar dan sahur untuk cegah dehidrasi</p> <!-- text-xs jadi text-[10px] -->
+                            <h4 class="font-semibold text-white text-xs">Minum yang Cukup</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">Minum 8 gelas air antara iftar dan sahur untuk cegah dehidrasi</p>
                         </div>
                     </div>
 
-                    <div class="glass p-2 rounded-lg flex gap-2 items-start"> <!-- p-3 jadi p-2 -->
-                        <span class="text-base">🍽️</span> <!-- text-lg jadi text-base -->
+                    <div class="glass p-3 rounded-lg flex gap-3 items-start">
+                        <span class="text-base">🍽️</span>
                         <div>
-                            <h4 class="font-semibold text-white text-[10px]">Makan Bertahap</h4> <!-- text-xs jadi text-[10px] -->
-                            <p class="text-[10px] text-gray-400 leading-snug">Mulai dengan kurma dan air, tunggu 10 menit sebelum makan utama</p> <!-- text-xs jadi text-[10px] -->
+                            <h4 class="font-semibold text-white text-xs">Makan Bertahap</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">Mulai dengan kurma dan air, tunggu 10 menit sebelum makan utama</p>
                         </div>
                     </div>
 
-                    <div class="glass p-2 rounded-lg flex gap-2 items-start"> <!-- p-3 jadi p-2 -->
-                        <span class="text-base">😴</span> <!-- text-lg jadi text-base -->
+                    <div class="glass p-3 rounded-lg flex gap-3 items-start">
+                        <span class="text-base">😴</span>
                         <div>
-                            <h4 class="font-semibold text-white text-[10px]">Tidur Siang</h4> <!-- text-xs jadi text-[10px] -->
-                            <p class="text-[10px] text-gray-400 leading-snug">Istirahat 15-20 menit di siang hari untuk menjaga energi</p> <!-- text-xs jadi text-[10px] -->
+                            <h4 class="font-semibold text-white text-xs">Tidur Siang</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">Istirahat 15-20 menit di siang hari untuk menjaga energi</p>
                         </div>
                     </div>
                 </div>
@@ -382,84 +384,86 @@
             </div>
         </div>
 
-        <!-- PAGE 4: MENU -->
+        <!-- PAGE 4: MENU - Jarak antar menu ditambah sedikit tapi tidak menyentuh navbar -->
         <div class="page" id="page-3">
             <div class="content-spacing">
                 <h2 class="text-base font-bold text-white mb-3 pt-1">Menu Buka Puasa</h2>
                 
-                <!-- PERUBAHAN: Jarak antar menu lebih rapat - space-y-4 jadi space-y-2 -->
-                <div class="space-y-2">
-                    <div class="glass p-3 rounded-xl"> <!-- p-4 jadi p-3 -->
-                        <div class="flex items-center gap-2 mb-2">
-                            <span class="text-lg">🍹</span> <!-- text-xl jadi text-lg -->
-                            <h3 class="font-bold text-yellow-400 text-xs">Pembuka</h3> <!-- text-sm jadi text-xs -->
+                <!-- Space-y ditambah dari 2 ke 3 -->
+                <div class="space-y-3">
+                    <!-- Padding ditambah sedikit -->
+                    <div class="glass p-4 rounded-xl">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-lg">🍹</span>
+                            <h3 class="font-bold text-yellow-400 text-xs">Pembuka</h3>
                         </div>
-                        <div class="space-y-1">
-                            <div class="flex justify-between items-center p-1 bg-slate-800/30 rounded"> <!-- p-1.5 jadi p-1 -->
-                                <span class="text-[10px] text-white">Kurma</span> <!-- text-xs jadi text-[10px] -->
-                                <span class="text-[9px] text-gray-400">3 butir</span> <!-- text-[10px] jadi text-[9px] -->
+                        <!-- Space-y ditambah -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center p-1.5 bg-slate-800/30 rounded">
+                                <span class="text-xs text-white">Kurma</span>
+                                <span class="text-[10px] text-gray-400">3 butir</span>
                             </div>
-                            <div class="flex justify-between items-center p-1 bg-slate-800/30 rounded">
-                                <span class="text-[10px] text-white">Air Zam-zam</span>
-                                <span class="text-[9px] text-gray-400">Hangat/dingin</span>
+                            <div class="flex justify-between items-center p-1.5 bg-slate-800/30 rounded">
+                                <span class="text-xs text-white">Air Zam-zam</span>
+                                <span class="text-[10px] text-gray-400">Hangat/dingin</span>
                             </div>
-                            <div class="flex justify-between items-center p-1 bg-slate-800/30 rounded">
-                                <span class="text-[10px] text-white">Kolak Pisang</span>
-                                <span class="text-[9px] text-gray-400">Khas Nusantara</span>
+                            <div class="flex justify-between items-center p-1.5 bg-slate-800/30 rounded">
+                                <span class="text-xs text-white">Kolak Pisang</span>
+                                <span class="text-[10px] text-gray-400">Khas Nusantara</span>
                             </div>
-                            <div class="flex justify-between items-center p-1 bg-slate-800/30 rounded">
-                                <span class="text-[10px] text-white">Es Buah</span>
-                                <span class="text-[9px] text-gray-400">Segar</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="glass p-3 rounded-xl"> <!-- p-4 jadi p-3 -->
-                        <div class="flex items-center gap-2 mb-2">
-                            <span class="text-lg">🍲</span> <!-- text-xl jadi text-lg -->
-                            <h3 class="font-bold text-orange-400 text-xs">Menu Utama</h3> <!-- text-sm jadi text-xs -->
-                        </div>
-                        <div class="space-y-1">
-                            <div class="flex justify-between items-center p-1 bg-slate-800/30 rounded">
-                                <span class="text-[10px] text-white">Nasi Putih/Merah</span>
-                                <span class="text-[9px] text-gray-400">Secukupnya</span>
-                            </div>
-                            <div class="flex justify-between items-center p-1 bg-slate-800/30 rounded">
-                                <span class="text-[10px] text-white">Sayur Sop</span>
-                                <span class="text-[9px] text-gray-400">Hangat</span>
-                            </div>
-                            <div class="flex justify-between items-center p-1 bg-slate-800/30 rounded">
-                                <span class="text-[10px] text-white">Rendang Pasaman</span>
-                                <span class="text-[9px] text-gray-400">Khas</span>
-                            </div>
-                            <div class="flex justify-between items-center p-1 bg-slate-800/30 rounded">
-                                <span class="text-[10px] text-white">Ayam Bakar/Goreng</span>
-                                <span class="text-[9px] text-gray-400">Protein</span>
+                            <div class="flex justify-between items-center p-1.5 bg-slate-800/30 rounded">
+                                <span class="text-xs text-white">Es Buah</span>
+                                <span class="text-[10px] text-gray-400">Segar</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="glass p-3 rounded-xl"> <!-- p-4 jadi p-3 -->
-                        <div class="flex items-center gap-2 mb-2">
-                            <span class="text-lg">🍮</span> <!-- text-xl jadi text-lg -->
-                            <h3 class="font-bold text-purple-400 text-xs">Penutup</h3> <!-- text-sm jadi text-xs -->
+                    <div class="glass p-4 rounded-xl">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-lg">🍲</span>
+                            <h3 class="font-bold text-orange-400 text-xs">Menu Utama</h3>
                         </div>
-                        <div class="space-y-1">
-                            <div class="flex justify-between items-center p-1 bg-slate-800/30 rounded">
-                                <span class="text-[10px] text-white">Bubur Kampiun</span>
-                                <span class="text-[9px] text-gray-400">Minang</span>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center p-1.5 bg-slate-800/30 rounded">
+                                <span class="text-xs text-white">Nasi Putih/Merah</span>
+                                <span class="text-[10px] text-gray-400">Secukupnya</span>
                             </div>
-                            <div class="flex justify-between items-center p-1 bg-slate-800/30 rounded">
-                                <span class="text-[10px] text-white">Dadiah</span>
-                                <span class="text-[9px] text-gray-400">Yogurt</span>
+                            <div class="flex justify-between items-center p-1.5 bg-slate-800/30 rounded">
+                                <span class="text-xs text-white">Sayur Sop</span>
+                                <span class="text-[10px] text-gray-400">Hangat</span>
                             </div>
-                            <div class="flex justify-between items-center p-1 bg-slate-800/30 rounded">
-                                <span class="text-[10px] text-white">Pisang Salai</span>
-                                <span class="text-[9px] text-gray-400">Manis</span>
+                            <div class="flex justify-between items-center p-1.5 bg-slate-800/30 rounded">
+                                <span class="text-xs text-white">Rendang Pasaman</span>
+                                <span class="text-[10px] text-gray-400">Khas</span>
                             </div>
-                            <div class="flex justify-between items-center p-1 bg-slate-800/30 rounded">
-                                <span class="text-[10px] text-white">Teh Talua</span>
-                                <span class="text-[9px] text-gray-400">Hangat</span>
+                            <div class="flex justify-between items-center p-1.5 bg-slate-800/30 rounded">
+                                <span class="text-xs text-white">Ayam Bakar/Goreng</span>
+                                <span class="text-[10px] text-gray-400">Protein</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass p-4 rounded-xl">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-lg">🍮</span>
+                            <h3 class="font-bold text-purple-400 text-xs">Penutup</h3>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center p-1.5 bg-slate-800/30 rounded">
+                                <span class="text-xs text-white">Bubur Kampiun</span>
+                                <span class="text-[10px] text-gray-400">Minang</span>
+                            </div>
+                            <div class="flex justify-between items-center p-1.5 bg-slate-800/30 rounded">
+                                <span class="text-xs text-white">Dadiah</span>
+                                <span class="text-[10px] text-gray-400">Yogurt</span>
+                            </div>
+                            <div class="flex justify-between items-center p-1.5 bg-slate-800/30 rounded">
+                                <span class="text-xs text-white">Pisang Salai</span>
+                                <span class="text-[10px] text-gray-400">Manis</span>
+                            </div>
+                            <div class="flex justify-between items-center p-1.5 bg-slate-800/30 rounded">
+                                <span class="text-xs text-white">Teh Talua</span>
+                                <span class="text-[10px] text-gray-400">Hangat</span>
                             </div>
                         </div>
                     </div>
@@ -604,7 +608,6 @@
                 const dayNum = dateParts[0];
                 const monthName = dateParts[1];
                 
-                // PERUBAHAN: Font lebih kecil agar muat satu halaman
                 return `
                     <div class="schedule-row ${isToday ? 'schedule-today' : ''}">
                         <div>
@@ -724,7 +727,6 @@
                 document.getElementById('home-countdown').textContent = '00:00:00';
             }
 
-            // PERUBAHAN: Hanya tampilkan 1 event dengan font lebih besar
             let nextPrayer = null;
             let isShowingTomorrow = false;
             
