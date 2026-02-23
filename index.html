@@ -201,6 +201,15 @@
                 padding: 2rem;
             }
         }
+
+        .next-day-indicator {
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -571,16 +580,19 @@
         }
 
         function getToday() {
-            return new Date(2026, 1, 22);
+            return new Date();
         }
 
         function renderSchedule() {
             const list = document.getElementById('schedule-list');
             const today = getToday();
-            const todayStr = today.getDate() + ' Feb';
+            const todayDay = today.getDate();
+            const todayMonth = today.getMonth();
+            const todayYear = today.getFullYear();
             
             list.innerHTML = scheduleData.map(item => {
-                const isToday = item.date === todayStr;
+                const itemDate = parseInt(item.date.split(' ')[0]);
+                const isToday = itemDate === todayDay && todayMonth === 1 && todayYear === 2026;
                 const dayName = item.fullDate.split(',')[0];
                 const dateParts = item.date.split(' ');
                 const dayNum = dateParts[0];
@@ -602,8 +614,28 @@
         }
 
         function updateHome() {
+            const now = new Date();
+            const currentMin = now.getHours() * 60 + now.getMinutes();
+            const currentSec = now.getSeconds();
+            
+            // Cari data hari ini
             const today = getToday();
-            const todayData = scheduleData.find(d => d.date === (today.getDate() + ' Feb'));
+            const todayDay = today.getDate();
+            const todayMonth = today.getMonth();
+            const todayYear = today.getFullYear();
+            
+            // Cari index hari ini dalam scheduleData
+            let todayIndex = scheduleData.findIndex(d => {
+                const dayNum = parseInt(d.date.split(' ')[0]);
+                return dayNum === todayDay && todayMonth === 1 && todayYear === 2026;
+            });
+            
+            // Jika tidak ketemu di tahun 2026, gunakan tanggal terdekat atau default ke hari pertama
+            if (todayIndex === -1) {
+                todayIndex = 0;
+            }
+            
+            const todayData = scheduleData[todayIndex];
             
             if (!todayData) return;
 
@@ -612,15 +644,13 @@
             document.getElementById('home-maghrib').textContent = to12Hour(todayData.maghrib);
             document.getElementById('home-isya').textContent = to12Hour(todayData.isya);
 
-            const now = new Date();
-            const currentMin = now.getHours() * 60 + now.getMinutes();
-            const currentSec = now.getSeconds();
             const imsakMin = timeToMinutes(todayData.imsak);
             const maghribMin = timeToMinutes(todayData.maghrib);
             const isyaMin = timeToMinutes(todayData.isya);
 
             let status, label, targetMin, progress;
             let showCountdown = true;
+            let isNextDay = false;
 
             if (currentMin < imsakMin) {
                 // Sebelum imsak - hitung mundur ke imsak
@@ -641,12 +671,24 @@
                 targetMin = isyaMin;
                 progress = 100;
             } else {
-                // Sudah isya - selesai
+                // Sudah isya - lanjut ke hari berikutnya (imsak besok)
                 status = 'Istirahat';
-                label = 'Selesai';
-                targetMin = isyaMin;
-                progress = 100;
-                showCountdown = false;
+                isNextDay = true;
+                
+                // Cek apakah ada data besok
+                const nextDayIndex = todayIndex + 1;
+                if (nextDayIndex < scheduleData.length) {
+                    const nextDayData = scheduleData[nextDayIndex];
+                    label = 'Menuju imsak besok';
+                    targetMin = timeToMinutes(nextDayData.imsak) + (24 * 60); // Tambah 24 jam
+                    progress = 100;
+                } else {
+                    // Tidak ada data besok (sudah akhir bulan)
+                    label = 'Selesai';
+                    targetMin = isyaMin;
+                    progress = 100;
+                    showCountdown = false;
+                }
             }
 
             document.getElementById('home-status').textContent = status;
@@ -662,7 +704,16 @@
             // Hitung mundur dengan detik yang akurat
             if (showCountdown) {
                 const nowTotalSec = currentMin * 60 + currentSec;
-                const targetTotalSec = targetMin * 60;
+                let targetTotalSec;
+                
+                if (isNextDay && todayIndex + 1 < scheduleData.length) {
+                    // Hitung ke imsak besok
+                    const nextDayData = scheduleData[todayIndex + 1];
+                    targetTotalSec = (24 * 60 * 60) + (timeToMinutes(nextDayData.imsak) * 60);
+                } else {
+                    targetTotalSec = targetMin * 60;
+                }
+                
                 let diffSec = targetTotalSec - nowTotalSec;
                 
                 // Pastikan tidak negatif
@@ -678,19 +729,71 @@
                 document.getElementById('home-countdown').textContent = '00:00:00';
             }
 
-            const prayers = [
+            // PERBAIKAN UTAMA: Logika Jadwal Selanjutnya
+            let nextPrayers = [];
+            let isShowingTomorrow = false;
+            
+            // Ambil semua jadwal hari ini yang belum lewat
+            const todayPrayers = [
+                { name: 'Imsak', time: todayData.imsak, done: currentMin > timeToMinutes(todayData.imsak) },
+                { name: 'Subuh', time: todayData.subuh, done: currentMin > timeToMinutes(todayData.subuh) },
                 { name: 'Dzuhur', time: todayData.dzuhur, done: currentMin > timeToMinutes(todayData.dzuhur) },
                 { name: 'Ashar', time: todayData.ashar, done: currentMin > timeToMinutes(todayData.ashar) },
                 { name: 'Maghrib', time: todayData.maghrib, done: currentMin > timeToMinutes(todayData.maghrib) },
                 { name: 'Isya', time: todayData.isya, done: currentMin > timeToMinutes(todayData.isya) }
-            ].filter(p => !p.done).slice(0, 3);
+            ].filter(p => !p.done);
+            
+            if (todayPrayers.length > 0) {
+                // Masih ada jadwal hari ini
+                nextPrayers = todayPrayers.slice(0, 3);
+            } else {
+                // Semua jadwal hari ini sudah lewat, ambil dari besok
+                isShowingTomorrow = true;
+                const nextDayIndex = todayIndex + 1;
+                if (nextDayIndex < scheduleData.length) {
+                    const nextDayData = scheduleData[nextDayIndex];
+                    nextPrayers = [
+                        { name: 'Imsak', time: nextDayData.imsak, done: false, isTomorrow: true },
+                        { name: 'Subuh', time: nextDayData.subuh, done: false, isTomorrow: true },
+                        { name: 'Dzuhur', time: nextDayData.dzuhur, done: false, isTomorrow: true }
+                    ];
+                }
+            }
 
-            document.getElementById('next-prayer-list').innerHTML = prayers.map(p => `
-                <div class="flex justify-between items-center p-1 rounded-lg ${p.name === 'Maghrib' ? 'bg-orange-500/20 border border-orange-500/30' : 'bg-slate-800/30'}">
-                    <span class="text-[11px] ${p.name === 'Maghrib' ? 'text-orange-400 font-semibold' : 'text-white'}">${p.name === 'Maghrib' ? 'text-orange-400 font-semibold' : 'text-white'}">${p.name}</span>
-                    <span class="text-[11px] time-font ${p.name === 'Maghrib' ? 'text-orange-400' : 'text-gray-400'}">${to12Hour(p.time)}</span>
-                </div>
-            `).join('');
+            let html = '';
+            
+            // Tambahkan indikator jika menampilkan jadwal besok
+            if (isShowingTomorrow && nextPrayers.length > 0) {
+                const nextDayData = scheduleData[todayIndex + 1];
+                const dayName = nextDayData.fullDate.split(',')[0];
+                html += `
+                    <div class="next-day-indicator">
+                        <span class="text-[10px] text-blue-300 font-semibold">📅 Besok (${dayName})</span>
+                    </div>
+                `;
+            }
+            
+            html += nextPrayers.map(p => {
+                const isMaghrib = p.name === 'Maghrib';
+                const isTomorrow = p.isTomorrow || false;
+                const bgClass = isMaghrib ? 'bg-orange-500/20 border border-orange-500/30' : 'bg-slate-800/30';
+                const nameClass = isMaghrib ? 'text-orange-400 font-semibold' : (isTomorrow ? 'text-blue-300' : 'text-white');
+                const timeClass = isMaghrib ? 'text-orange-400' : (isTomorrow ? 'text-blue-300' : 'text-gray-400');
+                const icon = isTomorrow ? '🌅 ' : '';
+                
+                return `
+                    <div class="flex justify-between items-center p-1.5 rounded-lg ${bgClass}">
+                        <span class="text-[11px] ${nameClass}">${icon}${p.name}</span>
+                        <span class="text-[11px] time-font ${timeClass}">${to12Hour(p.time)}</span>
+                    </div>
+                `;
+            }).join('');
+            
+            if (nextPrayers.length === 0) {
+                html = '<p class="text-[10px] text-gray-500 text-center py-2">Tidak ada jadwal tersedia</p>';
+            }
+            
+            document.getElementById('next-prayer-list').innerHTML = html;
         }
 
         function updateClock() {
