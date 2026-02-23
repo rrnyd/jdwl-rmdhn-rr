@@ -75,10 +75,10 @@
             font-feature-settings: "tnum";
         }
 
-        /* Active page indicator */
+        /* Active page indicator - DIPERKECIL */
         .nav-dot {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.3);
             transition: all 0.3s ease;
@@ -86,8 +86,8 @@
 
         .nav-dot.active {
             background: #fbbf24;
-            width: 24px;
-            border-radius: 4px;
+            width: 16px;
+            border-radius: 3px;
         }
 
         /* Prayer card */
@@ -149,7 +149,7 @@
             border-left: 3px solid #fbbf24;
         }
 
-        /* Bottom nav */
+        /* Bottom nav - PADDING DIKURANGI */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -160,7 +160,7 @@
 
         /* Content spacing for bottom nav - dikurangi */
         .content-spacing {
-            padding-bottom: 70px;
+            padding-bottom: 60px;
         }
 
         /* Hide on desktop hint */
@@ -282,8 +282,9 @@
                 </div>
 
                 <div class="glass rounded-xl overflow-hidden mt-1">
-                    <div class="bg-slate-800/50 p-2 text-[10px] font-semibold text-yellow-400 grid grid-cols-4 gap-2">
-                        <span>Tanggal</span>
+                    <!-- Header kolom dengan text-center untuk rata tengah -->
+                    <div class="bg-slate-800/50 p-2 text-[10px] font-semibold text-yellow-400 grid grid-cols-4 gap-2 items-center">
+                        <span class="text-center">Tanggal</span>
                         <span class="text-center">Imsak</span>
                         <span class="text-center text-orange-400">Buka</span>
                         <span class="text-center">Isya</span>
@@ -454,8 +455,8 @@
         </div>
     </div>
 
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav glass-strong px-6 py-3 pb-5">
+    <!-- Bottom Navigation - PADDING Y DIKURANGI -->
+    <nav class="bottom-nav glass-strong px-6 py-2 pb-4">
         <div class="flex justify-around items-center max-w-md mx-auto">
             <button onclick="goToPage(0)" class="nav-item flex flex-col items-center gap-1 group" data-page="0">
                 <svg class="w-5 h-5 text-gray-400 group-[.active]:text-yellow-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -486,8 +487,8 @@
             </button>
         </div>
         
-        <!-- Page Indicators -->
-        <div class="flex justify-center gap-2 mt-2">
+        <!-- Page Indicators - DIPERKECIL DAN DITURUNKAN -->
+        <div class="flex justify-center gap-2 mt-3">
             <div class="nav-dot active" data-index="0"></div>
             <div class="nav-dot" data-index="1"></div>
             <div class="nav-dot" data-index="2"></div>
@@ -593,7 +594,7 @@
                 const isToday = item.date === todayStr;
                 return `
                     <div class="schedule-item ${isToday ? 'schedule-today' : ''}">
-                        <div>
+                        <div class="text-center">
                             <p class="text-xs font-medium ${isToday ? 'text-yellow-400' : 'text-white'}">${item.date}</p>
                             <p class="text-[10px] text-gray-500">${item.fullDate.split(',')[0]}</p>
                         </div>
