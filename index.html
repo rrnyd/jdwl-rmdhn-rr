@@ -564,6 +564,21 @@
         const dots = document.querySelectorAll('.nav-dot');
         const navItems = document.querySelectorAll('.nav-item');
 
+        // Helper: Convert 24h to 12h format
+        function to12Hour(time24) {
+            const [hours, minutes] = time24.split(':').map(Number);
+            const period = hours >= 12 ? 'PM' : 'AM';
+            const hours12 = hours % 12 || 12;
+            return `${hours12}:${String(minutes).padStart(2, '0')} ${period}`;
+        }
+
+        // Helper: Convert 24h to 12h format without AM/PM (for display)
+        function to12HourSimple(time24) {
+            const [hours, minutes] = time24.split(':').map(Number);
+            const hours12 = hours % 12 || 12;
+            return `${hours12}:${String(minutes).padStart(2, '0')}`;
+        }
+
         // Navigation
         function goToPage(page) {
             currentPage = Math.max(0, Math.min(3, page));
@@ -697,9 +712,9 @@
                             <p class="text-sm font-medium ${isToday ? 'text-yellow-400' : 'text-white'}">${item.date}</p>
                             <p class="text-[10px] text-gray-500">${item.fullDate.split(',')[0]}</p>
                         </div>
-                        <p class="text-center text-sm text-blue-400 time-font">${item.imsak}</p>
-                        <p class="text-center text-sm text-orange-400 font-semibold time-font">${item.maghrib}</p>
-                        <p class="text-center text-sm text-gray-400 time-font">${item.isya}</p>
+                        <p class="text-center text-sm text-blue-400 time-font">${to12Hour(item.imsak)}</p>
+                        <p class="text-center text-sm text-orange-400 font-semibold time-font">${to12Hour(item.maghrib)}</p>
+                        <p class="text-center text-sm text-gray-400 time-font">${to12Hour(item.isya)}</p>
                     </div>
                 `;
             }).join('');
@@ -725,10 +740,10 @@
             
             if (!todayData) return;
 
-            document.getElementById('home-imsak').textContent = todayData.imsak;
-            document.getElementById('home-subuh').textContent = todayData.subuh;
-            document.getElementById('home-maghrib').textContent = todayData.maghrib;
-            document.getElementById('home-isya').textContent = todayData.isya;
+            document.getElementById('home-imsak').textContent = to12Hour(todayData.imsak);
+            document.getElementById('home-subuh').textContent = to12Hour(todayData.subuh);
+            document.getElementById('home-maghrib').textContent = to12Hour(todayData.maghrib);
+            document.getElementById('home-isya').textContent = to12Hour(todayData.isya);
 
             // Calculate status
             const now = new Date();
@@ -791,7 +806,7 @@
             document.getElementById('next-prayer-list').innerHTML = prayers.map(p => `
                 <div class="flex justify-between items-center p-2 rounded-lg ${p.name === 'Maghrib' ? 'bg-orange-500/20 border border-orange-500/30' : 'bg-slate-800/30'}">
                     <span class="text-sm ${p.name === 'Maghrib' ? 'text-orange-400 font-semibold' : 'text-white'}">${p.name}</span>
-                    <span class="text-sm time-font ${p.name === 'Maghrib' ? 'text-orange-400' : 'text-gray-400'}">${p.time}</span>
+                    <span class="text-sm time-font ${p.name === 'Maghrib' ? 'text-orange-400' : 'text-gray-400'}">${to12Hour(p.time)}</span>
                 </div>
             `).join('');
         }
@@ -799,8 +814,13 @@
         // Clock
         function updateClock() {
             const now = new Date();
+            let hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const period = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12;
             document.getElementById('live-clock').textContent = 
-                now.toLocaleTimeString('id-ID', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                `${hours}:${minutes}:${seconds} ${period}`;
         }
 
         // Init
