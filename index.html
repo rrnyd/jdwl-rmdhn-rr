@@ -125,7 +125,6 @@
             flex-direction: column;
         }
 
-        /* PERUBAHAN: Header lebih rapat */
         .schedule-header {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
@@ -133,7 +132,7 @@
             padding: 0.15rem 0.5rem;
             background: rgba(30, 41, 59, 0.5);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 10px; /* Dinaikkan dari 9px */
+            font-size: 10px;
             font-weight: 600;
             color: #fbbf24;
         }
@@ -142,16 +141,14 @@
             text-align: center;
         }
 
-        /* PERUBAHAN: Baris lebih rapat tapi font lebih besar */
         .schedule-row {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
             gap: 0.25rem;
-            padding: 0.05rem 0.5rem; /* Sangat rapat */
+            padding: 0.05rem 0.5rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             align-items: center;
-            min-height: 16px; /* Lebih pendek */
-            /* TAMBAHAN: Garis seperti buku tulis */
+            min-height: 16px;
             background-image: linear-gradient(to bottom, transparent 95%, rgba(255, 255, 255, 0.1) 95%);
             background-size: 100% 100%;
         }
@@ -325,40 +322,39 @@
             <div class="content-spacing">
                 <h2 class="text-base font-bold text-white mb-2 pt-1">Doa & Panduan</h2>
                 
-                <!-- PERUBAHAN: Kurangi padding doa dari p-4 menjadi p-3 -->
-                <div class="prayer-card p-3 rounded-xl mb-2">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="text-base">🤲</span>
-                        <h3 class="font-bold text-yellow-400 text-xs">Doa Buka Puasa</h3>
+                <!-- PERUBAHAN: Padding lebih kecil lagi -->
+                <div class="prayer-card p-2 rounded-xl mb-2">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="text-lg">🤲</span>
+                        <h3 class="font-bold text-yellow-400 text-sm">Doa Buka Puasa</h3>
                     </div>
-                    <!-- PERUBAHAN: Kurangi margin dan line-height -->
-                    <p class="arabic text-sm text-white text-right leading-snug mb-2">
+                    <p class="arabic text-base text-white text-right leading-relaxed mb-2">
                         اللَّهُمَّ لَكَ صُمْتُ وَبِكَ آمَنْتُ وَعَلَى رِزْقِكَ أَفْطَرْتُ
                     </p>
-                    <p class="text-[10px] text-gray-300 italic mb-1">
+                    <p class="text-xs text-gray-300 italic mb-1">
                         "Allahumma laka shumtu wa bika aamantu wa 'ala rizqika aftartu"
                     </p>
-                    <p class="text-[10px] text-gray-400 leading-snug">
+                    <p class="text-xs text-gray-400 leading-relaxed">
                         "Ya Allah, kepada-Mu aku berpuasa dan kepada-Mu aku beriman dan dengan rezeki-Mu aku berbuka."
                     </p>
                 </div>
 
-                <!-- PERUBAHAN: Kurangi padding dan margin -->
-                <div class="glass p-3 rounded-xl mb-2">
-                    <p class="text-[10px] text-gray-300 mb-2">Dilanjutkan dengan:</p>
-                    <p class="arabic text-xs text-white text-right leading-snug mb-2">
+                <!-- PERUBAHAN: Padding lebih kecil lagi -->
+                <div class="glass p-2 rounded-xl mb-2">
+                    <p class="text-xs text-gray-300 mb-2">Dilanjutkan dengan:</p>
+                    <p class="arabic text-sm text-white text-right mb-2">
                         ذَهَبَ الظَّمَأُ وَابْتَلَّتِ الْعُرُوقُ وَثَبَتَ الأَجْرُ إِنْ شَاءَ اللَّهُ
                     </p>
-                    <p class="text-[10px] text-gray-400 leading-snug">
+                    <p class="text-xs text-gray-400 leading-relaxed">
                         "Telah hilang dahaga, urat-urat telah basah, dan telah ditetapkan pahala, insya Allah."
                     </p>
                 </div>
 
-                <!-- PERUBAHAN: Kurangi spacing antar tips -->
-                <div class="space-y-2">
+                <!-- PERUBAHAN: Spacing lebih kecil, padding tips dikurangi -->
+                <div class="space-y-1">
                     <h3 class="font-bold text-white text-xs uppercase tracking-wider">Tips Puasa</h3>
                     
-                    <div class="glass p-2 rounded-lg flex gap-3 items-start">
+                    <div class="glass p-1.5 rounded-lg flex gap-2 items-start">
                         <span class="text-base">💧</span>
                         <div>
                             <h4 class="font-semibold text-white text-xs">Minum yang Cukup</h4>
@@ -366,7 +362,7 @@
                         </div>
                     </div>
 
-                    <div class="glass p-2 rounded-lg flex gap-3 items-start">
+                    <div class="glass p-1.5 rounded-lg flex gap-2 items-start">
                         <span class="text-base">🍽️</span>
                         <div>
                             <h4 class="font-semibold text-white text-xs">Makan Bertahap</h4>
@@ -374,7 +370,7 @@
                         </div>
                     </div>
 
-                    <div class="glass p-2 rounded-lg flex gap-3 items-start">
+                    <div class="glass p-1.5 rounded-lg flex gap-2 items-start">
                         <span class="text-base">😴</span>
                         <div>
                             <h4 class="font-semibold text-white text-xs">Tidur Siang</h4>
@@ -608,7 +604,6 @@
                 const dayNum = dateParts[0];
                 const monthName = dateParts[1];
                 
-                // PERUBAHAN: Font lebih besar (10px) tapi baris tetap rapat
                 return `
                     <div class="schedule-row ${isToday ? 'schedule-today' : ''}">
                         <div>
