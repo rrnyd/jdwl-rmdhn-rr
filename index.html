@@ -213,6 +213,15 @@
             margin-bottom: 0.5rem;
             text-align: center;
         }
+
+        .current-day-indicator {
+            background: rgba(251, 191, 36, 0.2);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -726,6 +735,7 @@
 
             let nextPrayer = null;
             let isShowingTomorrow = false;
+            let isShowingToday = false;
             
             const todayPrayers = [
                 { name: 'Imsak', time: todayData.imsak, done: currentMin > timeToMinutes(todayData.imsak) },
@@ -738,6 +748,7 @@
             
             if (todayPrayers.length > 0) {
                 nextPrayer = todayPrayers[0];
+                isShowingToday = true;
             } else {
                 isShowingTomorrow = true;
                 const nextDayIndex = todayIndex + 1;
@@ -749,7 +760,14 @@
 
             let html = '';
             
-            if (isShowingTomorrow && nextPrayer) {
+            if (isShowingToday && nextPrayer) {
+                const dayName = todayData.fullDate.split(',')[0];
+                html += `
+                    <div class="current-day-indicator mb-3">
+                        <span class="text-xs text-yellow-300 font-semibold">📅 Sekarang (${dayName})</span>
+                    </div>
+                `;
+            } else if (isShowingTomorrow && nextPrayer) {
                 const nextDayData = scheduleData[todayIndex + 1];
                 const dayName = nextDayData.fullDate.split(',')[0];
                 html += `
