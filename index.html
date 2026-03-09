@@ -125,11 +125,12 @@
             flex-direction: column;
         }
 
+        /* PERUBAHAN: Tambah kolom No. (0.5fr) sebelum Tanggal */
         .schedule-header {
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
+            /* PERUBAHAN: Dari 2fr 1fr 1fr 1fr menjadi 0.5fr 2fr 1fr 1fr 1fr */
+            grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr;
             gap: 0.25rem;
-            /* PERUBAHAN: Padding atas bawah diperkecil dari 0.5rem menjadi 0.25rem */
             padding: 0.25rem 0.5rem;
             background: rgba(30, 41, 59, 0.5);
             border-bottom: 2px solid rgba(251, 191, 36, 0.5);
@@ -142,9 +143,11 @@
             text-align: center;
         }
 
+        /* PERUBAHAN: Tambah kolom No. (0.5fr) sebelum Tanggal */
         .schedule-row {
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
+            /* PERUBAHAN: Dari 2fr 1fr 1fr 1fr menjadi 0.5fr 2fr 1fr 1fr 1fr */
+            grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr;
             gap: 0.25rem;
             padding: 0.02rem 0.5rem;
             border-bottom: 2px solid rgba(255, 255, 255, 0.2);
@@ -163,7 +166,9 @@
             text-align: center;
         }
 
-        .schedule-row > div:first-child {
+        /* PERUBAHAN: Kolom No. dan Tanggal tetap rata kiri */
+        .schedule-row > div:first-child,
+        .schedule-row > div:nth-child(2) {
             text-align: left;
         }
 
@@ -315,7 +320,7 @@
             </div>
         </div>
 
-        <!-- PAGE 2: FULL SCHEDULE - TANPA PERUBAHAN, FORMAT ASLI -->
+        <!-- PAGE 2: FULL SCHEDULE - DENGAN KOLOM NO. BARU -->
         <div class="page" id="page-1">
             <div class="content-spacing">
                 <div class="sticky top-0 z-10 bg-slate-900/90 backdrop-blur-md pb-1 pt-0.5">
@@ -324,7 +329,9 @@
 
                 <div class="glass rounded-xl overflow-hidden mt-1">
                     <div class="schedule-table">
+                        <!-- PERUBAHAN: Tambah kolom No. -->
                         <div class="schedule-header">
+                            <span>No.</span>
                             <span>Tanggal</span>
                             <span>Imsak</span>
                             <span class="text-orange-400">Buka</span>
@@ -634,7 +641,7 @@
             });
         }
 
-        // HALAMAN 2: TANPA PERUBAHAN - FORMAT ASLI
+        // HALAMAN 2: DENGAN KOLOM NO. BARU
         function renderSchedule() {
             const list = document.getElementById('schedule-list');
             const today = getToday();
@@ -642,7 +649,8 @@
             const todayMonth = today.getMonth();
             const todayYear = today.getFullYear();
             
-            list.innerHTML = scheduleData.map(item => {
+            // PERUBAHAN: Tambah index untuk nomor urut
+            list.innerHTML = scheduleData.map((item, index) => {
                 const itemDate = parseInt(item.date.split(' ')[0]);
                 const itemMonthStr = item.date.split(' ')[1];
                 const itemMonth = itemMonthStr === 'Feb' ? 1 : (itemMonthStr === 'Mar' ? 2 : -1);
@@ -652,8 +660,10 @@
                 const dayNum = dateParts[0];
                 const monthName = dateParts[1];
                 
+                // PERUBAHAN: Tambah kolom No. (index + 1)
                 return `
                     <div class="schedule-row ${isToday ? 'schedule-today' : ''}">
+                        <p class="text-[10px] text-gray-400 time-font">${index + 1}</p>
                         <div>
                             <p class="text-[10px] font-medium ${isToday ? 'text-yellow-400' : 'text-white'} leading-tight">
                                 ${dayName}, ${dayNum} ${monthName}
