@@ -222,6 +222,12 @@
             margin-bottom: 0.5rem;
             text-align: center;
         }
+
+        .ramadhan-badge {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.2) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #34d399;
+        }
     </style>
 </head>
 <body>
@@ -246,7 +252,10 @@
                     <h1 class="text-base font-bold bg-gradient-to-r from-yellow-200 to-amber-400 bg-clip-text text-transparent">
                         Pasaman Barat
                     </h1>
-                    <p class="text-[10px] text-gray-400 mt-0.5">Feb 2026</p>
+                    <div class="mt-1 inline-flex items-center gap-1 px-2 py-0.5 rounded-full ramadhan-badge text-[10px] font-semibold">
+                        <span>🌙</span>
+                        <span>Ramadhan 1447 H</span>
+                    </div>
                     
                     <div class="mt-2 inline-block px-3 py-1 rounded-full glass">
                         <span id="live-clock" class="text-base font-bold text-yellow-400 time-font">--:--:--</span>
@@ -295,7 +304,10 @@
                 </div>
 
                 <div class="glass p-4 rounded-xl">
-                    <p class="text-xs text-gray-400 uppercase tracking-wider mb-2">Jadwal Selanjutnya</p>
+                    <div class="flex items-center justify-between mb-2">
+                        <p class="text-xs text-gray-400 uppercase tracking-wider">Jadwal Selanjutnya</p>
+                        <span id="ramadhan-day" class="text-[10px] text-emerald-400 font-semibold">-- Ramadhan</span>
+                    </div>
                     <div id="next-prayer-list" class="space-y-2">
                     </div>
                 </div>
@@ -306,7 +318,10 @@
         <div class="page" id="page-1">
             <div class="content-spacing">
                 <div class="sticky top-0 z-10 bg-slate-900/90 backdrop-blur-md pb-1 pt-0.5">
-                    <h2 class="text-sm font-bold text-white">Jadwal Lengkap</h2>
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-sm font-bold text-white">Jadwal Lengkap</h2>
+                        <span class="text-[10px] text-emerald-400">19 Feb - 19 Mar 2026</span>
+                    </div>
                 </div>
 
                 <div class="glass rounded-xl overflow-hidden mt-1">
@@ -520,35 +535,39 @@
     </nav>
 
     <script>
+        // Jadwal Ramadhan 1447 H / 2026 M
+        // 1 Ramadhan = 19 Februari 2026
+        // 30 Ramadhan = 19 Maret 2026
         const scheduleData = [
-            { date: "1 Feb", fullDate: "Minggu, 01 Februari 2026", imsak: "05:03", subuh: "05:13", dzuhur: "12:38", ashar: "15:59", maghrib: "18:41", isya: "19:52" },
-            { date: "2 Feb", fullDate: "Senin, 02 Februari 2026", imsak: "05:03", subuh: "05:13", dzuhur: "12:38", ashar: "15:59", maghrib: "18:41", isya: "19:52" },
-            { date: "3 Feb", fullDate: "Selasa, 03 Februari 2026", imsak: "05:03", subuh: "05:13", dzuhur: "12:38", ashar: "15:59", maghrib: "18:41", isya: "19:52" },
-            { date: "4 Feb", fullDate: "Rabu, 04 Februari 2026", imsak: "05:04", subuh: "05:14", dzuhur: "12:38", ashar: "15:59", maghrib: "18:41", isya: "19:52" },
-            { date: "5 Feb", fullDate: "Kamis, 05 Februari 2026", imsak: "05:04", subuh: "05:14", dzuhur: "12:38", ashar: "15:59", maghrib: "18:41", isya: "19:52" },
-            { date: "6 Feb", fullDate: "Jumat, 06 Februari 2026", imsak: "05:05", subuh: "05:15", dzuhur: "12:38", ashar: "15:58", maghrib: "18:41", isya: "19:52" },
-            { date: "7 Feb", fullDate: "Sabtu, 07 Februari 2026", imsak: "05:04", subuh: "05:14", dzuhur: "12:38", ashar: "15:58", maghrib: "18:41", isya: "19:52" },
-            { date: "8 Feb", fullDate: "Minggu, 08 Februari 2026", imsak: "05:04", subuh: "05:14", dzuhur: "12:38", ashar: "15:58", maghrib: "18:41", isya: "19:52" },
-            { date: "9 Feb", fullDate: "Senin, 09 Februari 2026", imsak: "05:05", subuh: "05:15", dzuhur: "12:38", ashar: "15:58", maghrib: "18:41", isya: "19:52" },
-            { date: "10 Feb", fullDate: "Selasa, 10 Februari 2026", imsak: "05:05", subuh: "05:15", dzuhur: "12:38", ashar: "15:58", maghrib: "18:41", isya: "19:52" },
-            { date: "11 Feb", fullDate: "Rabu, 11 Februari 2026", imsak: "05:05", subuh: "05:15", dzuhur: "12:38", ashar: "15:57", maghrib: "18:41", isya: "19:52" },
-            { date: "12 Feb", fullDate: "Kamis, 12 Februari 2026", imsak: "05:05", subuh: "05:15", dzuhur: "12:38", ashar: "15:57", maghrib: "18:41", isya: "19:51" },
-            { date: "13 Feb", fullDate: "Jumat, 13 Februari 2026", imsak: "05:05", subuh: "05:15", dzuhur: "12:38", ashar: "15:57", maghrib: "18:41", isya: "19:51" },
-            { date: "14 Feb", fullDate: "Sabtu, 14 Februari 2026", imsak: "05:05", subuh: "05:15", dzuhur: "12:38", ashar: "15:56", maghrib: "18:41", isya: "19:51" },
-            { date: "15 Feb", fullDate: "Minggu, 15 Februari 2026", imsak: "05:05", subuh: "05:15", dzuhur: "12:38", ashar: "15:56", maghrib: "18:41", isya: "19:51" },
-            { date: "16 Feb", fullDate: "Senin, 16 Februari 2026", imsak: "05:05", subuh: "05:15", dzuhur: "12:38", ashar: "15:55", maghrib: "18:41", isya: "19:51" },
-            { date: "17 Feb", fullDate: "Selasa, 17 Februari 2026", imsak: "05:05", subuh: "05:15", dzuhur: "12:38", ashar: "15:55", maghrib: "18:41", isya: "19:51" },
-            { date: "18 Feb", fullDate: "Rabu, 18 Februari 2026", imsak: "05:05", subuh: "05:15", dzuhur: "12:38", ashar: "15:55", maghrib: "18:41", isya: "19:51" },
-            { date: "19 Feb", fullDate: "Kamis, 19 Februari 2026", imsak: "05:05", subuh: "05:15", dzuhur: "12:38", ashar: "15:54", maghrib: "18:41", isya: "19:50" },
-            { date: "20 Feb", fullDate: "Jumat, 20 Februari 2026", imsak: "05:05", subuh: "05:15", dzuhur: "12:38", ashar: "15:54", maghrib: "18:41", isya: "19:50" },
-            { date: "21 Feb", fullDate: "Sabtu, 21 Februari 2026", imsak: "05:05", subuh: "05:15", dzuhur: "12:38", ashar: "15:53", maghrib: "18:41", isya: "19:50" },
-            { date: "22 Feb", fullDate: "Minggu, 22 Februari 2026", imsak: "05:05", subuh: "05:15", dzuhur: "12:38", ashar: "15:53", maghrib: "18:41", isya: "19:50" },
-            { date: "23 Feb", fullDate: "Senin, 23 Februari 2026", imsak: "05:05", subuh: "05:15", dzuhur: "12:38", ashar: "15:52", maghrib: "18:40", isya: "19:50" },
-            { date: "24 Feb", fullDate: "Selasa, 24 Februari 2026", imsak: "05:05", subuh: "05:15", dzuhur: "12:37", ashar: "15:52", maghrib: "18:40", isya: "19:49" },
-            { date: "25 Feb", fullDate: "Rabu, 25 Februari 2026", imsak: "05:05", subuh: "05:15", dzuhur: "12:37", ashar: "15:51", maghrib: "18:40", isya: "19:49" },
-            { date: "26 Feb", fullDate: "Kamis, 26 Februari 2026", imsak: "05:05", subuh: "05:15", dzuhur: "12:37", ashar: "15:50", maghrib: "18:40", isya: "19:49" },
-            { date: "27 Feb", fullDate: "Jumat, 27 Februari 2026", imsak: "05:05", subuh: "05:15", dzuhur: "12:37", ashar: "15:50", maghrib: "18:40", isya: "19:49" },
-            { date: "28 Feb", fullDate: "Sabtu, 28 Februari 2026", imsak: "05:05", subuh: "05:15", dzuhur: "12:37", ashar: "15:49", maghrib: "18:40", isya: "19:48" }
+            { date: "19 Feb", fullDate: "Kamis, 19 Februari 2026", ramadhan: 1, imsak: "05:05", subuh: "05:15", dzuhur: "12:38", ashar: "15:54", maghrib: "18:41", isya: "19:50" },
+            { date: "20 Feb", fullDate: "Jumat, 20 Februari 2026", ramadhan: 2, imsak: "05:05", subuh: "05:15", dzuhur: "12:38", ashar: "15:54", maghrib: "18:41", isya: "19:50" },
+            { date: "21 Feb", fullDate: "Sabtu, 21 Februari 2026", ramadhan: 3, imsak: "05:05", subuh: "05:15", dzuhur: "12:38", ashar: "15:53", maghrib: "18:41", isya: "19:50" },
+            { date: "22 Feb", fullDate: "Minggu, 22 Februari 2026", ramadhan: 4, imsak: "05:05", subuh: "05:15", dzuhur: "12:38", ashar: "15:53", maghrib: "18:41", isya: "19:50" },
+            { date: "23 Feb", fullDate: "Senin, 23 Februari 2026", ramadhan: 5, imsak: "05:05", subuh: "05:15", dzuhur: "12:38", ashar: "15:52", maghrib: "18:40", isya: "19:50" },
+            { date: "24 Feb", fullDate: "Selasa, 24 Februari 2026", ramadhan: 6, imsak: "05:05", subuh: "05:15", dzuhur: "12:37", ashar: "15:52", maghrib: "18:40", isya: "19:49" },
+            { date: "25 Feb", fullDate: "Rabu, 25 Februari 2026", ramadhan: 7, imsak: "05:05", subuh: "05:15", dzuhur: "12:37", ashar: "15:51", maghrib: "18:40", isya: "19:49" },
+            { date: "26 Feb", fullDate: "Kamis, 26 Februari 2026", ramadhan: 8, imsak: "05:05", subuh: "05:15", dzuhur: "12:37", ashar: "15:50", maghrib: "18:40", isya: "19:49" },
+            { date: "27 Feb", fullDate: "Jumat, 27 Februari 2026", ramadhan: 9, imsak: "05:05", subuh: "05:15", dzuhur: "12:37", ashar: "15:50", maghrib: "18:40", isya: "19:49" },
+            { date: "28 Feb", fullDate: "Sabtu, 28 Februari 2026", ramadhan: 10, imsak: "05:05", subuh: "05:15", dzuhur: "12:37", ashar: "15:49", maghrib: "18:40", isya: "19:48" },
+            { date: "1 Mar", fullDate: "Minggu, 01 Maret 2026", ramadhan: 11, imsak: "05:04", subuh: "05:14", dzuhur: "12:36", ashar: "15:49", maghrib: "18:40", isya: "19:48" },
+            { date: "2 Mar", fullDate: "Senin, 02 Maret 2026", ramadhan: 12, imsak: "05:04", subuh: "05:14", dzuhur: "12:36", ashar: "15:48", maghrib: "18:39", isya: "19:48" },
+            { date: "3 Mar", fullDate: "Selasa, 03 Maret 2026", ramadhan: 13, imsak: "05:04", subuh: "05:14", dzuhur: "12:36", ashar: "15:47", maghrib: "18:39", isya: "19:47" },
+            { date: "4 Mar", fullDate: "Rabu, 04 Maret 2026", ramadhan: 14, imsak: "05:04", subuh: "05:14", dzuhur: "12:36", ashar: "15:47", maghrib: "18:39", isya: "19:47" },
+            { date: "5 Mar", fullDate: "Kamis, 05 Maret 2026", ramadhan: 15, imsak: "05:03", subuh: "05:13", dzuhur: "12:36", ashar: "15:46", maghrib: "18:39", isya: "19:47" },
+            { date: "6 Mar", fullDate: "Jumat, 06 Maret 2026", ramadhan: 16, imsak: "05:03", subuh: "05:13", dzuhur: "12:35", ashar: "15:45", maghrib: "18:38", isya: "19:46" },
+            { date: "7 Mar", fullDate: "Sabtu, 07 Maret 2026", ramadhan: 17, imsak: "05:03", subuh: "05:13", dzuhur: "12:35", ashar: "15:45", maghrib: "18:38", isya: "19:46" },
+            { date: "8 Mar", fullDate: "Minggu, 08 Maret 2026", ramadhan: 18, imsak: "05:02", subuh: "05:12", dzuhur: "12:35", ashar: "15:44", maghrib: "18:38", isya: "19:45" },
+            { date: "9 Mar", fullDate: "Senin, 09 Maret 2026", ramadhan: 19, imsak: "05:02", subuh: "05:12", dzuhur: "12:35", ashar: "15:43", maghrib: "18:38", isya: "19:45" },
+            { date: "10 Mar", fullDate: "Selasa, 10 Maret 2026", ramadhan: 20, imsak: "05:02", subuh: "05:12", dzuhur: "12:34", ashar: "15:43", maghrib: "18:37", isya: "19:45" },
+            { date: "11 Mar", fullDate: "Rabu, 11 Maret 2026", ramadhan: 21, imsak: "05:01", subuh: "05:11", dzuhur: "12:34", ashar: "15:42", maghrib: "18:37", isya: "19:44" },
+            { date: "12 Mar", fullDate: "Kamis, 12 Maret 2026", ramadhan: 22, imsak: "05:01", subuh: "05:11", dzuhur: "12:34", ashar: "15:41", maghrib: "18:37", isya: "19:44" },
+            { date: "13 Mar", fullDate: "Jumat, 13 Maret 2026", ramadhan: 23, imsak: "05:00", subuh: "05:10", dzuhur: "12:34", ashar: "15:40", maghrib: "18:36", isya: "19:43" },
+            { date: "14 Mar", fullDate: "Sabtu, 14 Maret 2026", ramadhan: 24, imsak: "05:00", subuh: "05:10", dzuhur: "12:33", ashar: "15:40", maghrib: "18:36", isya: "19:43" },
+            { date: "15 Mar", fullDate: "Minggu, 15 Maret 2026", ramadhan: 25, imsak: "04:59", subuh: "05:09", dzuhur: "12:33", ashar: "15:39", maghrib: "18:36", isya: "19:42" },
+            { date: "16 Mar", fullDate: "Senin, 16 Maret 2026", ramadhan: 26, imsak: "04:59", subuh: "05:09", dzuhur: "12:33", ashar: "15:38", maghrib: "18:35", isya: "19:42" },
+            { date: "17 Mar", fullDate: "Selasa, 17 Maret 2026", ramadhan: 27, imsak: "04:58", subuh: "05:08", dzuhur: "12:32", ashar: "15:37", maghrib: "18:35", isya: "19:41" },
+            { date: "18 Mar", fullDate: "Rabu, 18 Maret 2026", ramadhan: 28, imsak: "04:58", subuh: "05:08", dzuhur: "12:32", ashar: "15:37", maghrib: "18:35", isya: "19:41" },
+            { date: "19 Mar", fullDate: "Kamis, 19 Maret 2026", ramadhan: 29, imsak: "04:57", subuh: "05:07", dzuhur: "12:32", ashar: "15:36", maghrib: "18:34", isya: "19:40" }
         ];
 
         // Array nama hari dalam bahasa Indonesia
@@ -603,16 +622,27 @@
             return new Date();
         }
 
+        // Fungsi untuk mendapatkan data jadwal berdasarkan tanggal
+        function getScheduleDataByDate(date) {
+            const day = date.getDate();
+            const month = date.getMonth();
+            const year = date.getFullYear();
+            
+            return scheduleData.find(d => {
+                const [dDay, dMonthStr] = d.date.split(' ');
+                const dDayNum = parseInt(dDay);
+                const dMonth = dMonthStr === 'Feb' ? 1 : (dMonthStr === 'Mar' ? 2 : -1);
+                return dDayNum === day && dMonth === month && year === 2026;
+            });
+        }
+
         function renderSchedule() {
             const list = document.getElementById('schedule-list');
             const today = getToday();
-            const todayDay = today.getDate();
-            const todayMonth = today.getMonth();
-            const todayYear = today.getFullYear();
+            const todayData = getScheduleDataByDate(today);
             
             list.innerHTML = scheduleData.map(item => {
-                const itemDate = parseInt(item.date.split(' ')[0]);
-                const isToday = itemDate === todayDay && todayMonth === 1 && todayYear === 2026;
+                const isToday = todayData && todayData.date === item.date;
                 const dayName = item.fullDate.split(',')[0];
                 const dateParts = item.date.split(' ');
                 const dayNum = dateParts[0];
@@ -624,6 +654,7 @@
                             <p class="text-[10px] font-medium ${isToday ? 'text-yellow-400' : 'text-white'} leading-tight">
                                 ${dayName}, ${dayNum} ${monthName}
                             </p>
+                            <p class="text-[8px] text-emerald-400">Ramadhan ${item.ramadhan}</p>
                         </div>
                         <p class="text-[10px] text-blue-400 time-font">${to12Hour(item.imsak)}</p>
                         <p class="text-[10px] text-orange-400 font-semibold time-font">${to12Hour(item.maghrib)}</p>
@@ -639,38 +670,34 @@
             const currentSec = now.getSeconds();
             
             const today = getToday();
-            const todayDay = today.getDate();
-            const todayMonth = today.getMonth();
-            const todayYear = today.getFullYear();
-            
-            // PERBAIKAN: Ambil nama hari dari sistem, bukan dari data
             const currentDayName = dayNames[today.getDay()];
-            const currentMonthName = monthNames[todayMonth];
+            const currentMonthName = monthNames[today.getMonth()];
             
-            let todayIndex = scheduleData.findIndex(d => {
-                const dayNum = parseInt(d.date.split(' ')[0]);
-                return dayNum === todayDay && todayMonth === 1 && todayYear === 2026;
-            });
+            // Cek apakah hari ini ada dalam jadwal Ramadhan
+            const todayData = getScheduleDataByDate(today);
+            const isDataAvailable = todayData !== undefined;
             
-            // PERBAIKAN: Flag untuk menandai apakah data tersedia untuk tanggal ini
-            let isDataAvailable = true;
-            if (todayIndex === -1) {
-                todayIndex = 0;
-                isDataAvailable = false;
+            // Default ke hari pertama jika tidak ada data
+            const displayData = todayData || scheduleData[0];
+            
+            if (!displayData) return;
+
+            // Update badge Ramadhan
+            const ramadhanBadge = document.getElementById('ramadhan-day');
+            if (isDataAvailable && todayData) {
+                ramadhanBadge.textContent = `${todayData.ramadhan} Ramadhan`;
+            } else {
+                ramadhanBadge.textContent = 'Ramadhan 1447 H';
             }
-            
-            const todayData = scheduleData[todayIndex];
-            
-            if (!todayData) return;
 
-            document.getElementById('home-imsak').textContent = to12Hour(todayData.imsak);
-            document.getElementById('home-subuh').textContent = to12Hour(todayData.subuh);
-            document.getElementById('home-maghrib').textContent = to12Hour(todayData.maghrib);
-            document.getElementById('home-isya').textContent = to12Hour(todayData.isya);
+            document.getElementById('home-imsak').textContent = to12Hour(displayData.imsak);
+            document.getElementById('home-subuh').textContent = to12Hour(displayData.subuh);
+            document.getElementById('home-maghrib').textContent = to12Hour(displayData.maghrib);
+            document.getElementById('home-isya').textContent = to12Hour(displayData.isya);
 
-            const imsakMin = timeToMinutes(todayData.imsak);
-            const maghribMin = timeToMinutes(todayData.maghrib);
-            const isyaMin = timeToMinutes(todayData.isya);
+            const imsakMin = timeToMinutes(displayData.imsak);
+            const maghribMin = timeToMinutes(displayData.maghrib);
+            const isyaMin = timeToMinutes(displayData.isya);
 
             let status, label, targetMin, progress;
             let showCountdown = true;
@@ -695,14 +722,17 @@
                 status = 'Istirahat';
                 isNextDay = true;
                 
+                // Cek apakah ada hari berikutnya dalam jadwal
+                const todayIndex = scheduleData.findIndex(d => d.date === displayData.date);
                 const nextDayIndex = todayIndex + 1;
+                
                 if (nextDayIndex < scheduleData.length) {
                     const nextDayData = scheduleData[nextDayIndex];
                     label = 'Menuju imsak besok';
                     targetMin = timeToMinutes(nextDayData.imsak) + (24 * 60);
                     progress = 100;
                 } else {
-                    label = 'Selesai';
+                    label = 'Ramadhan Selesai';
                     targetMin = isyaMin;
                     progress = 100;
                     showCountdown = false;
@@ -723,6 +753,7 @@
                 const nowTotalSec = currentMin * 60 + currentSec;
                 let targetTotalSec;
                 
+                const todayIndex = scheduleData.findIndex(d => d.date === displayData.date);
                 if (isNextDay && todayIndex + 1 < scheduleData.length) {
                     const nextDayData = scheduleData[todayIndex + 1];
                     targetTotalSec = (24 * 60 * 60) + (timeToMinutes(nextDayData.imsak) * 60);
@@ -744,12 +775,12 @@
                 document.getElementById('home-countdown').textContent = '00:00:00';
             }
 
-            // PERBAIKAN: Logika untuk menentukan jadwal selanjutnya
+            // Logika untuk menentukan jadwal selanjutnya
             let nextPrayer = null;
             let isShowingTomorrow = false;
             let isShowingToday = false;
             
-            if (isDataAvailable) {
+            if (isDataAvailable && todayData) {
                 // Data tersedia untuk hari ini, gunakan logika normal
                 const todayPrayers = [
                     { name: 'Imsak', time: todayData.imsak, done: currentMin > timeToMinutes(todayData.imsak) },
@@ -766,9 +797,11 @@
                     isShowingToday = true;
                 } else {
                     // Semua jadwal hari ini sudah lewat, ambil Imsak besok
-                    isShowingTomorrow = true;
+                    const todayIndex = scheduleData.findIndex(d => d.date === todayData.date);
                     const nextDayIndex = todayIndex + 1;
+                    
                     if (nextDayIndex < scheduleData.length) {
+                        isShowingTomorrow = true;
                         const nextDayData = scheduleData[nextDayIndex];
                         nextPrayer = { name: 'Imsak', time: nextDayData.imsak, done: false, isTomorrow: true };
                     }
@@ -779,11 +812,10 @@
                 // nextPrayer tetap null, akan ditangani di bawah
             }
 
-            // PERBAIKAN: Render HTML dengan nama hari yang benar dari sistem
+            // Render HTML dengan nama hari yang benar dari sistem
             let html = '';
             
             if (isShowingToday) {
-                // PERBAIKAN: Gunakan currentDayName dari sistem, bukan dari data
                 if (isDataAvailable && nextPrayer) {
                     html += `
                         <div class="current-day-indicator mb-3">
@@ -792,14 +824,24 @@
                     `;
                 } else if (!isDataAvailable) {
                     // Data tidak tersedia untuk tanggal ini
+                    const todayDay = today.getDate();
                     html += `
                         <div class="current-day-indicator mb-3" style="background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.3);">
-                            <span class="text-xs text-red-300 font-semibold">📅 Sekarang (${currentDayName}, ${todayDay} ${currentMonthName} ${todayYear})</span>
+                            <span class="text-xs text-red-300 font-semibold">📅 Sekarang (${currentDayName}, ${todayDay} ${currentMonthName} ${today.getFullYear()})</span>
                             <p class="text-[10px] text-red-200 mt-1">Data jadwal tidak tersedia untuk tanggal ini</p>
+                        </div>
+                    `;
+                } else if (isDataAvailable && !nextPrayer) {
+                    // Ramadhan sudah selesai
+                    html += `
+                        <div class="current-day-indicator mb-3" style="background: rgba(16, 185, 129, 0.2); border-color: rgba(16, 185, 129, 0.3);">
+                            <span class="text-xs text-emerald-300 font-semibold">🎉 Ramadhan 1447 H Telah Selesai</span>
+                            <p class="text-[10px] text-emerald-200 mt-1">Selamat Hari Raya Idul Fitri 1447 H</p>
                         </div>
                     `;
                 }
             } else if (isShowingTomorrow && nextPrayer) {
+                const todayIndex = scheduleData.findIndex(d => d.date === todayData.date);
                 const nextDayData = scheduleData[todayIndex + 1];
                 const dayName = nextDayData.fullDate.split(',')[0];
                 html += `
@@ -824,9 +866,7 @@
                     </div>
                 `;
             } else if (!isDataAvailable) {
-                html += '<p class="text-sm text-gray-500 text-center py-4">Jadwal hanya tersedia untuk Februari 2026</p>';
-            } else {
-                html += '<p class="text-sm text-gray-500 text-center py-4">Tidak ada jadwal tersedia</p>';
+                html += '<p class="text-sm text-gray-500 text-center py-4">Jadwal tersedia: 19 Feb - 19 Mar 2026</p>';
             }
             
             document.getElementById('next-prayer-list').innerHTML = html;
