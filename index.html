@@ -314,14 +314,11 @@
             </div>
         </div>
 
-        <!-- PAGE 2: FULL SCHEDULE -->
+        <!-- PAGE 2: FULL SCHEDULE - TANPA PERUBAHAN, FORMAT ASLI -->
         <div class="page" id="page-1">
             <div class="content-spacing">
                 <div class="sticky top-0 z-10 bg-slate-900/90 backdrop-blur-md pb-1 pt-0.5">
-                    <div class="flex items-center justify-between">
-                        <h2 class="text-sm font-bold text-white">Jadwal Lengkap</h2>
-                        <span class="text-[10px] text-emerald-400">19 Feb - 19 Mar 2026</span>
-                    </div>
+                    <h2 class="text-sm font-bold text-white">Jadwal Lengkap</h2>
                 </div>
 
                 <div class="glass rounded-xl overflow-hidden mt-1">
@@ -636,13 +633,19 @@
             });
         }
 
+        // HALAMAN 2: TANPA PERUBAHAN - FORMAT ASLI
         function renderSchedule() {
             const list = document.getElementById('schedule-list');
             const today = getToday();
-            const todayData = getScheduleDataByDate(today);
+            const todayDay = today.getDate();
+            const todayMonth = today.getMonth();
+            const todayYear = today.getFullYear();
             
             list.innerHTML = scheduleData.map(item => {
-                const isToday = todayData && todayData.date === item.date;
+                const itemDate = parseInt(item.date.split(' ')[0]);
+                const itemMonthStr = item.date.split(' ')[1];
+                const itemMonth = itemMonthStr === 'Feb' ? 1 : (itemMonthStr === 'Mar' ? 2 : -1);
+                const isToday = itemDate === todayDay && itemMonth === todayMonth && todayYear === 2026;
                 const dayName = item.fullDate.split(',')[0];
                 const dateParts = item.date.split(' ');
                 const dayNum = dateParts[0];
@@ -654,7 +657,6 @@
                             <p class="text-[10px] font-medium ${isToday ? 'text-yellow-400' : 'text-white'} leading-tight">
                                 ${dayName}, ${dayNum} ${monthName}
                             </p>
-                            <p class="text-[8px] text-emerald-400">Ramadhan ${item.ramadhan}</p>
                         </div>
                         <p class="text-[10px] text-blue-400 time-font">${to12Hour(item.imsak)}</p>
                         <p class="text-[10px] text-orange-400 font-semibold time-font">${to12Hour(item.maghrib)}</p>
