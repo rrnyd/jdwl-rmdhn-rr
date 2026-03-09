@@ -551,6 +551,10 @@
             { date: "28 Feb", fullDate: "Sabtu, 28 Februari 2026", imsak: "05:05", subuh: "05:15", dzuhur: "12:37", ashar: "15:49", maghrib: "18:40", isya: "19:48" }
         ];
 
+        // Array nama hari dalam bahasa Indonesia
+        const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
         let currentPage = 0;
 
         const container = document.getElementById('appContainer');
@@ -639,13 +643,20 @@
             const todayMonth = today.getMonth();
             const todayYear = today.getFullYear();
             
+            // PERBAIKAN: Ambil nama hari dari sistem, bukan dari data
+            const currentDayName = dayNames[today.getDay()];
+            const currentMonthName = monthNames[todayMonth];
+            
             let todayIndex = scheduleData.findIndex(d => {
                 const dayNum = parseInt(d.date.split(' ')[0]);
                 return dayNum === todayDay && todayMonth === 1 && todayYear === 2026;
             });
             
+            // PERBAIKAN: Flag untuk menandai apakah data tersedia untuk tanggal ini
+            let isDataAvailable = true;
             if (todayIndex === -1) {
                 todayIndex = 0;
+                isDataAvailable = false;
             }
             
             const todayData = scheduleData[todayIndex];
@@ -738,41 +749,56 @@
             let isShowingTomorrow = false;
             let isShowingToday = false;
             
-            // Cek semua jadwal sholat hari ini yang belum lewat
-            const todayPrayers = [
-                { name: 'Imsak', time: todayData.imsak, done: currentMin > timeToMinutes(todayData.imsak) },
-                { name: 'Subuh', time: todayData.subuh, done: currentMin > timeToMinutes(todayData.subuh) },
-                { name: 'Dzuhur', time: todayData.dzuhur, done: currentMin > timeToMinutes(todayData.dzuhur) },
-                { name: 'Ashar', time: todayData.ashar, done: currentMin > timeToMinutes(todayData.ashar) },
-                { name: 'Maghrib', time: todayData.maghrib, done: currentMin > timeToMinutes(todayData.maghrib) },
-                { name: 'Isya', time: todayData.isya, done: currentMin > timeToMinutes(todayData.isya) }
-            ].filter(p => !p.done);
-            
-            if (todayPrayers.length > 0) {
-                // Masih ada jadwal hari ini yang belum lewat
-                nextPrayer = todayPrayers[0];
-                isShowingToday = true;
-            } else {
-                // Semua jadwal hari ini sudah lewat, ambil Imsak besok
-                isShowingTomorrow = true;
-                const nextDayIndex = todayIndex + 1;
-                if (nextDayIndex < scheduleData.length) {
-                    const nextDayData = scheduleData[nextDayIndex];
-                    nextPrayer = { name: 'Imsak', time: nextDayData.imsak, done: false, isTomorrow: true };
+            if (isDataAvailable) {
+                // Data tersedia untuk hari ini, gunakan logika normal
+                const todayPrayers = [
+                    { name: 'Imsak', time: todayData.imsak, done: currentMin > timeToMinutes(todayData.imsak) },
+                    { name: 'Subuh', time: todayData.subuh, done: currentMin > timeToMinutes(todayData.subuh) },
+                    { name: 'Dzuhur', time: todayData.dzuhur, done: currentMin > timeToMinutes(todayData.dzuhur) },
+                    { name: 'Ashar', time: todayData.ashar, done: currentMin > timeToMinutes(todayData.ashar) },
+                    { name: 'Maghrib', time: todayData.maghrib, done: currentMin > timeToMinutes(todayData.maghrib) },
+                    { name: 'Isya', time: todayData.isya, done: currentMin > timeToMinutes(todayData.isya) }
+                ].filter(p => !p.done);
+                
+                if (todayPrayers.length > 0) {
+                    // Masih ada jadwal hari ini yang belum lewat
+                    nextPrayer = todayPrayers[0];
+                    isShowingToday = true;
+                } else {
+                    // Semua jadwal hari ini sudah lewat, ambil Imsak besok
+                    isShowingTomorrow = true;
+                    const nextDayIndex = todayIndex + 1;
+                    if (nextDayIndex < scheduleData.length) {
+                        const nextDayData = scheduleData[nextDayIndex];
+                        nextPrayer = { name: 'Imsak', time: nextDayData.imsak, done: false, isTomorrow: true };
+                    }
                 }
+            } else {
+                // Data tidak tersedia untuk tanggal saat ini
+                isShowingToday = true;
+                // nextPrayer tetap null, akan ditangani di bawah
             }
 
-            // PERBAIKAN: Ambil nama hari yang benar dari data
+            // PERBAIKAN: Render HTML dengan nama hari yang benar dari sistem
             let html = '';
             
-            if (isShowingToday && nextPrayer) {
-                // Ambil nama hari dari fullDate (format: "Minggu, 01 Februari 2026")
-                const dayName = todayData.fullDate.split(',')[0];
-                html += `
-                    <div class="current-day-indicator mb-3">
-                        <span class="text-xs text-yellow-300 font-semibold">📅 Sekarang (${dayName})</span>
-                    </div>
-                `;
+            if (isShowingToday) {
+                // PERBAIKAN: Gunakan currentDayName dari sistem, bukan dari data
+                if (isDataAvailable && nextPrayer) {
+                    html += `
+                        <div class="current-day-indicator mb-3">
+                            <span class="text-xs text-yellow-300 font-semibold">📅 Sekarang (${currentDayName})</span>
+                        </div>
+                    `;
+                } else if (!isDataAvailable) {
+                    // Data tidak tersedia untuk tanggal ini
+                    html += `
+                        <div class="current-day-indicator mb-3" style="background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.3);">
+                            <span class="text-xs text-red-300 font-semibold">📅 Sekarang (${currentDayName}, ${todayDay} ${currentMonthName} ${todayYear})</span>
+                            <p class="text-[10px] text-red-200 mt-1">Data jadwal tidak tersedia untuk tanggal ini</p>
+                        </div>
+                    `;
+                }
             } else if (isShowingTomorrow && nextPrayer) {
                 const nextDayData = scheduleData[todayIndex + 1];
                 const dayName = nextDayData.fullDate.split(',')[0];
@@ -797,8 +823,10 @@
                         <span class="time-font ${timeClass}">${to12Hour(nextPrayer.time)}</span>
                     </div>
                 `;
+            } else if (!isDataAvailable) {
+                html += '<p class="text-sm text-gray-500 text-center py-4">Jadwal hanya tersedia untuk Februari 2026</p>';
             } else {
-                html = '<p class="text-sm text-gray-500 text-center py-4">Tidak ada jadwal tersedia</p>';
+                html += '<p class="text-sm text-gray-500 text-center py-4">Tidak ada jadwal tersedia</p>';
             }
             
             document.getElementById('next-prayer-list').innerHTML = html;
